@@ -20,6 +20,7 @@ def create_seeded_hash(blur):
     b = base64.b64encode(hex(random.randint(0, 1000))[2:])
     t = base64.b64encode(hex(int(time.time() % 1000))[2:])
     z = base64.b64encode(hex(blur)[2:])
+    return "{}{}{}".format(b, t, z)
     # print("{}{}{}".format(b, t, z))
 
 
