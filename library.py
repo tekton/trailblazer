@@ -16,6 +16,12 @@ def load_config(loc="./config.json"):
     }
 
 
+def create_offset_blur(offset=1560750100158985):
+    now = int(time.time() * 1000000)
+    blur = offset - now
+    return base64.b64encode(str(blur))
+
+
 def create_seeded_hash(blur):
     b = base64.b64encode(hex(random.randint(0, 1000))[2:])
     t = base64.b64encode(hex(int(time.time() % 1000))[2:])
