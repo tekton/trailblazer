@@ -1,5 +1,5 @@
 import random
-import base64 # base64.urlsafe_b64encode
+import base64  # base64.urlsafe_b64encode
 import time
 import redis
 #
@@ -45,4 +45,4 @@ def blaze(blur):
 
 
 if __name__ == "__main__":
-	pass
+    pass

@@ -44,7 +44,7 @@ def tbHash(offset=1560750100158985):
 
 
 if __name__ == "__main__":
-	a = tbHash()
+	a = tbHash(0)
 	print(a)
 
 	# b = reverse_hash(a)
