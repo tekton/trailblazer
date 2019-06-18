@@ -29,6 +29,11 @@
 		"dynamoWriteCapacity": {
 			"Type": "Number",
 			"Default": 1
+		},
+		"apiGatewayName": {
+			"Type": "String",
+			"Default": "trailblazerApiGateway",
+			"Description": "Name for the API Gateway"
 		}
 	},
 	"Resources": {
@@ -128,6 +133,60 @@
 					}
 				}
 			}
-		}
+		},
+		"tbApiGatewayPermissionGet": {
+			"Type": "AWS::Lambda::Permission",
+			"Properties": {
+				"FunctionName": {"Fn::GetAtt": ["trailblazerGetHashLambda", "Arn"]},
+				"Action": "lambda:InvokeFunction",
+				"Principal": "apigateway.amazonaws.com",
+				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}:/*/*/*"}
+			}
+		},
+		"tbApiGatewayPermissionGet": {
+			"Type": "AWS::Lambda::Permission",
+			"Properties": {
+				"FunctionName": {"Fn::GetAtt": ["trailblazerPushHashLambda", "Arn"]},
+				"Action": "lambda:InvokeFunction",
+				"Principal": "apigateway.amazonaws.com",
+				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}:/*/*/*"}
+			}
+		},
+		"tbApiGateway": {
+			"Type" : "AWS::ApiGateway::RestApi",
+			"Properties": {
+				"Name": {"Ref": "apiGatewayName"}
+			}
+		},
+		"gatewayPushPath": {
+	        "Type": "AWS::ApiGateway::Resource",
+	        "Properties": {
+	            "RestApiId": {
+	                "Ref": "tbApiGateway"
+	            },
+	            "ParentId": {
+	                "Fn::GetAtt": [
+	                    "tbApiGateway",
+	                    "RootResourceId"
+	                ]
+	            },
+	            "PathPart": "push"
+	        }
+	    },
+		"gatewayGetPath": {
+	        "Type": "AWS::ApiGateway::Resource",
+	        "Properties": {
+	            "RestApiId": {
+	                "Ref": "tbApiGateway"
+	            },
+	            "ParentId": {
+	                "Fn::GetAtt": [
+	                    "tbApiGateway",
+	                    "RootResourceId"
+	                ]
+	            },
+	            "PathPart": "{s}"
+	        }
+	    }
 	}
 }
