@@ -59,18 +59,25 @@ def push_handler(event, context):
 
 
 def get_handler(event, context):
-    res = awslib.get_from_dynamo(
-        table=TABLE,
-        pk_str="s",
-        pk_val=event["pathParameters"]["s"]
-    )
-    return {
-        "statusCode": 302,
-        "headers": {
-            "Location": res["Item"]["u"]["S"]
-        },
-        "body": ""
-    }
+    try:
+        res = awslib.get_from_dynamo(
+            table=TABLE,
+            pk_str="s",
+            pk_val=event["pathParameters"]["s"]
+        )
+        return {
+            "statusCode": 302,
+            "headers": {
+                "Location": res["Item"]["u"]["S"]
+            },
+            "body": ""
+        }
+    except Exception as e:
+        print(e)
+        return {
+            "statusCode": 404,
+            "body": "unable to find"
+        }
 
 
 if __name__ == "__main__":
