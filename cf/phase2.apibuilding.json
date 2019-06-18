@@ -34,6 +34,11 @@
 			"Type": "String",
 			"Default": "trailblazerApiGateway",
 			"Description": "Name for the API Gateway"
+		},
+		"apiGatewayStage": {
+			"Type": "String",
+			"Default": "dev",
+			"Description": "Base stage to make for the API Gateway"
 		}
 	},
 	"Resources": {
@@ -129,10 +134,13 @@
 				},
 				"Environment": {
 					"Variables": {
-						"TABLE": {"Ref": "tbHashTable"}
+						"TABLE": {"Ref": "tbHashTable"},
+						"URL_ROOT": {"Fn::Sub": "https://${tbApiGateway}.execute.${AWS::Region}.amazonaws.com"},
+						"URL_STAGE": {"Ref": "apiGatewayStage"}
 					}
 				}
-			}
+			},
+			"DependsOn": "tbApiGateway"
 		},
 		"tbApiGatewayPermissionGet": {
 			"Type": "AWS::Lambda::Permission",
@@ -140,23 +148,54 @@
 				"FunctionName": {"Fn::GetAtt": ["trailblazerGetHashLambda", "Arn"]},
 				"Action": "lambda:InvokeFunction",
 				"Principal": "apigateway.amazonaws.com",
-				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}:/*/*/*"}
-			}
+				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}/*/*/*"}
+			},
+			"DependsOn": [
+				"trailblazerGetHashLambda",
+				"tbApiGateway"
+			]
 		},
-		"tbApiGatewayPermissionGet": {
+		"tbApiGatewayPermissionPush": {
 			"Type": "AWS::Lambda::Permission",
 			"Properties": {
 				"FunctionName": {"Fn::GetAtt": ["trailblazerPushHashLambda", "Arn"]},
 				"Action": "lambda:InvokeFunction",
 				"Principal": "apigateway.amazonaws.com",
-				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}:/*/*/*"}
-			}
+				"SourceArn": {"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${tbApiGateway}/*/*/*"}
+			},
+			"DependsOn": [
+				"trailblazerPushHashLambda",
+				"tbApiGateway"
+			]
 		},
 		"tbApiGateway": {
 			"Type" : "AWS::ApiGateway::RestApi",
 			"Properties": {
 				"Name": {"Ref": "apiGatewayName"}
 			}
+		},
+		"tbGatewayStageDev": {
+			"Type" : "AWS::ApiGateway::Stage",
+			"Properties": {
+				"RestApiId": {
+	                "Ref": "tbApiGateway"
+	            },
+	            "StageName": {"Ref": "apiGatewayStage"},
+	            "DeploymentId": {"Ref": "tbGatewayDevDeploy"}
+			},
+			"DependsOn": "tbGatewayDevDeploy"
+		},
+		"tbGatewayDevDeploy": {
+			"Type" : "AWS::ApiGateway::Deployment",
+			"Properties" : {
+				"RestApiId": {
+	                "Ref": "tbApiGateway"
+	            }
+			},
+			"DependsOn": [
+				"gatewayPushU",
+				"gatewayGetS"
+			]
 		},
 		"gatewayPushPath": {
 	        "Type": "AWS::ApiGateway::Resource",
@@ -187,6 +226,48 @@
 	            },
 	            "PathPart": "{s}"
 	        }
+	    },
+	    "gatewayGetS": {
+	    	"Type" : "AWS::ApiGateway::Method",
+	    	"Properties": {
+	    		"AuthorizationType": "NONE",
+		        "HttpMethod": "GET",
+	    		"ResourceId": {"Ref": "gatewayGetPath"},
+	    		"RestApiId": {"Ref": "tbApiGateway"},
+	    		"Integration": {
+	    			"Type": "AWS_PROXY",
+	    			"IntegrationHttpMethod": "POST",
+	    			"Uri": {"Fn::Join": ["", [
+						"arn:aws:apigateway:",
+						{"Ref": "AWS::Region"},
+						":lambda:path/2015-03-31/functions/",
+						{"Fn::GetAtt": ["trailblazerGetHashLambda", "Arn"]},
+						"/invocations"]]
+					}
+	    		}
+	    	},
+	    	"DependsOn": "tbApiGatewayPermissionGet"
+	    },
+	    "gatewayPushU": {
+	    	"Type" : "AWS::ApiGateway::Method",
+	    	"Properties": {
+	    		"AuthorizationType": "NONE",
+		        "HttpMethod": "POST",
+	    		"ResourceId": {"Ref": "gatewayPushPath"},
+	    		"RestApiId": {"Ref": "tbApiGateway"},
+	    		"Integration": {
+	    			"Type": "AWS_PROXY",
+	    			"IntegrationHttpMethod": "POST",
+	    			"Uri": {"Fn::Join": ["", [
+						"arn:aws:apigateway:",
+						{"Ref": "AWS::Region"},
+						":lambda:path/2015-03-31/functions/",
+						{"Fn::GetAtt": ["trailblazerPushHashLambda", "Arn"]},
+						"/invocations"]]
+					}
+	    		}
+	    	},
+	    	"DependsOn": "tbApiGatewayPermissionPush"
 	    }
 	}
 }

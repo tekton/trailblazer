@@ -6,6 +6,8 @@ import os
 
 OFFSET = os.getenv("OFFSET", 0)
 TABLE = os.getenv("TABLE", "tbHash")
+URL_ROOT = os.getenv("TABLE", "http://localhost:8000")
+URL_STAGE = os.getenv("TABLE", "dev")
 
 
 def push_handler(event, context):
@@ -49,7 +51,9 @@ def push_handler(event, context):
     if "ResponseMetadata" in res:
         if res["ResponseMetadata"]["HTTPStatusCode"] == 200:
             rtn_dict["statusCode"] = 200
-            rtn_dict["body"] = json.dumps({"short": s, "url": u})
+            rtn_dict["body"] = json.dumps({"short": s,
+                                           "url": u,
+                                           "uri": "{}/{}/".format(URL_ROOT, URL_STAGE, s)})
             return rtn_dict
         else:
             rtn_dict["body"] = json.dumps({"error": "unable to save"})
