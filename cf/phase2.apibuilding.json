@@ -135,7 +135,7 @@
 				"Environment": {
 					"Variables": {
 						"TABLE": {"Ref": "tbHashTable"},
-						"URL_ROOT": {"Fn::Sub": "https://${tbApiGateway}.execute.${AWS::Region}.amazonaws.com"},
+						"URL_ROOT": {"Fn::Sub": "https://${tbApiGateway}.execute-api.${AWS::Region}.amazonaws.com"},
 						"URL_STAGE": {"Ref": "apiGatewayStage"}
 					}
 				}
