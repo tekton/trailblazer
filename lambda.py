@@ -6,8 +6,8 @@ import os
 
 OFFSET = os.getenv("OFFSET", 0)
 TABLE = os.getenv("TABLE", "tbHash")
-URL_ROOT = os.getenv("TABLE", "http://localhost:8000")
-URL_STAGE = os.getenv("TABLE", "dev")
+URL_ROOT = os.getenv("URL_ROOT", "http://localhost:8000")
+URL_STAGE = os.getenv("URL_STAGE", "dev")
 
 
 def push_handler(event, context):
