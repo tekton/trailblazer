@@ -6,7 +6,7 @@ phases:
   build:
     commands:
       - ls -lah
-      - rm *.ml
+      - rm *.yml
       - rm requirements.txt
       - rm LICENSE
       - rm README.md
