@@ -6,6 +6,11 @@ phases:
   build:
     commands:
       - ls -lah
+      - rm *.ml
+      - rm requirements.txt
+      - rm LICENSE
+      - rm README.md
+      - rm -rf cf
 artifacts:
   files:
     - "**/*"

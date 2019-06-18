@@ -1,0 +1,7 @@
+{
+	"Properties": {
+		"s3Bucket": "",
+		"codeKey": "",
+		"layerKey": ""
+	}
+}
