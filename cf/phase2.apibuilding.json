@@ -1,7 +1,133 @@
 {
-	"Properties": {
-		"s3Bucket": "",
-		"codeKey": "",
-		"layerKey": ""
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Crete lambda functions, dynamodb, and api gateway for trailblazer",
+	"Parameters": {
+		"s3Bucket": {
+			"Type": "String",
+			"Default": "trailblazer-awsRegion-accountId",
+			"Description": "The base bucket other things will be using"
+		},
+		"codeKey": {
+			"Type": "String",
+			"Default": "",
+			"Description": "The S3 location of initial code"
+		},
+		"layerKey": {
+			"Type": "String",
+			"Default": "trailblazer",
+			"Description": "NYI - If a layer is required this is where it would look for code"
+		},
+		"dynamoTable": {
+			"Type": "String",
+			"Default": "trailblazerHashes",
+			"Description": "Name of the trailblazer dynamoDB table"
+		},
+		"dynamoReadCapacity": {
+			"Type": "Number",
+			"Default": 1
+		},
+		"dynamoWriteCapacity": {
+			"Type": "Number",
+			"Default": 1
+		}
+	},
+	"Resources": {
+		"tbHashTable": {
+			"Type" : "AWS::DynamoDB::Table",
+			"Properties": {
+				"TableName": {"Ref": "dynamoTable"},
+				"ProvisionedThroughput": {
+					"ReadCapacityUnits": {"Ref": "dynamoReadCapacity"},
+					"WriteCapacityUnits": {"Ref": "dynamoWriteCapacity"}
+				},
+				"KeySchema": [
+					{
+						"AttributeName": "s",
+						"KeyType": "HASH"
+					}
+				],
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "s",
+						"AttributeType": "S"
+					}
+				]
+			}
+		},
+		"lambdaIAMRole": {
+			"Type" : "AWS::IAM::Role",
+			"Properties": {
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": {
+						"Effect": "Allow",
+						"Action": "sts:AssumeRole",
+						"Principal": {
+							"Service": "lambda.amazonaws.com"
+						}
+					}
+				},
+				"Policies": [
+					{
+						"PolicyName": "tbLambdaDynamoPermissions",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [
+								{
+									"Sid": "DynamoPolicy",
+									"Effect": "Allow",
+						            "Action": [
+						            	"dynamodb:DescribeTable",
+						                "dynamodb:Query",
+						                "dynamodb:Scan",
+						                "dynamodb:GetItem",
+						                "dynamodb:BatchGetItem",
+						                "dynamodb:PutItem",
+						                "dynamodb:UpdateItem"
+						            ],
+									"Resource": {"Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tbHashTable}"}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		"trailblazerGetHashLambda": {
+			"Type" : "AWS::Lambda::Function",
+			"Properties": {
+				"FunctionName": "trailblazerGetHash",
+				"Role": {"Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/${lambdaIAMRole}"},
+				"Runtime": "python3.7",
+				"Handler": "lambda.get_handler",
+				"Code": {
+					"S3Bucket": {"Ref": "s3Bucket"},
+					"S3Key": {"Ref": "codeKey"}
+				},
+				"Environment": {
+					"Variables": {
+						"TABLE": {"Ref": "tbHashTable"}
+					}
+				}
+			}
+		},
+		"trailblazerPushHashLambda": {
+			"Type" : "AWS::Lambda::Function",
+			"Properties": {
+				"FunctionName": "trailblazerPushHash",
+				"Role": {"Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/${lambdaIAMRole}"},
+				"Runtime": "python3.7",
+				"Handler": "lambda.push_handler",
+				"Code": {
+					"S3Bucket": {"Ref": "s3Bucket"},
+					"S3Key": {"Ref": "codeKey"}
+				},
+				"Environment": {
+					"Variables": {
+						"TABLE": {"Ref": "tbHashTable"}
+					}
+				}
+			}
+		}
 	}
 }
