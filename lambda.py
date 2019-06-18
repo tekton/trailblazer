@@ -53,7 +53,7 @@ def push_handler(event, context):
             rtn_dict["statusCode"] = 200
             rtn_dict["body"] = json.dumps({"short": s,
                                            "url": u,
-                                           "uri": "{}/{}/".format(URL_ROOT, URL_STAGE, s)})
+                                           "uri": "{}/{}/{}".format(URL_ROOT, URL_STAGE, s)})
             return rtn_dict
         else:
             rtn_dict["body"] = json.dumps({"error": "unable to save"})
