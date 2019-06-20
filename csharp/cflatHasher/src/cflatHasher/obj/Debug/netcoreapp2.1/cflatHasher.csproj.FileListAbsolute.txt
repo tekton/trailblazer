@@ -1,0 +1,11 @@
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/bin/Debug/netcoreapp2.1/cflatHasher.deps.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/bin/Debug/netcoreapp2.1/cflatHasher.runtimeconfig.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/bin/Debug/netcoreapp2.1/cflatHasher.runtimeconfig.dev.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/bin/Debug/netcoreapp2.1/cflatHasher.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/bin/Debug/netcoreapp2.1/cflatHasher.pdb
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.csprojAssemblyReference.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.csproj.CoreCompileInputs.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.AssemblyInfoInputs.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.AssemblyInfo.cs
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/src/cflatHasher/obj/Debug/netcoreapp2.1/cflatHasher.pdb

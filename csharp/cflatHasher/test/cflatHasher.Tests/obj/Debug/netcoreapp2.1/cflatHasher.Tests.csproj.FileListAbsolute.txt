@@ -1,0 +1,17 @@
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.Tests.deps.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.Tests.runtimeconfig.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.Tests.runtimeconfig.dev.json
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.Tests.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.Tests.pdb
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/bin/Debug/netcoreapp2.1/cflatHasher.pdb
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.csprojAssemblyReference.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.csproj.CoreCompileInputs.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.AssemblyInfoInputs.cache
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.AssemblyInfo.cs
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.csproj.CopyComplete
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.dll
+/Users/tagee/opt/trailblazer/csharp/cflatHasher/test/cflatHasher.Tests/obj/Debug/netcoreapp2.1/cflatHasher.Tests.pdb
