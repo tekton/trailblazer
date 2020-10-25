@@ -1,26 +1,19 @@
 import random
-import base64 # base64.urlsafe_b64encode
+import base64  # base64.urlsafe_b64encode
 import time
-import redis
+import json
 
 
 def load_config(loc="./config.json"):
-    # load the configuration file to figure out where things are supposed to be
-    return {
-        "root": "trailblazer",
-        "redis": {
-            "host": "localhost",
-            "port": 6379,
-            "db": 0
-        }
-    }
+    with open(loc, "r") as infile:
+        return json.load(infile)
 
 
 def create_seeded_hash(blur):
     b = base64.b64encode(hex(random.randint(0, 1000))[2:])
     t = base64.b64encode(hex(int(time.time() % 1000))[2:])
     z = base64.b64encode(hex(blur)[2:])
-    # print("{}{}{}".format(b, t, z))
+    return "{}{}{}".format(b, t, z)
 
 
 def create_hash(blur):
@@ -38,13 +31,22 @@ def incr_redis(r, settings):
     return num
 
 
-def set_redis(r, settings, blur, url):
-    key = "{}:hash".format(settings["root"])
-    res = r.hset(key, blur, url)
-    return res
+def set_redis(r, settings, blur, url, ttl=604800):  # TTL = 7 days
+    _key = "{}:{}:url".format(settings["root"], blur)
+    _res = r.set(_key, url, keepttl=ttl)
+    _ex = r.expire(_key, ttl)
+    print(_res, _ex)
+
+    # key = "{}:hash".format(settings["root"])
+    # res = r.hset(key, blur, url)
+    return _res
 
 
 def get_url(r, settings, blur):
-    key = "{}:hash".format(settings["root"])
-    res = r.hget(key, blur)
-    return res
+    _key = "{}:{}:url".format(settings["root"], blur)
+    _res = r.get(_key)
+    print(_res)
+
+    # key = "{}:hash".format(settings["root"])
+    # res = r.hget(key, blur)
+    return _res
