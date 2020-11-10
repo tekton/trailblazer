@@ -1,11 +1,8 @@
-import random
-import base64 # base64.urlsafe_b64encode
-import time
 import redis
 #
 from library import load_config, create_hash, incr_redis, set_redis, get_url
 #
-from flask import Flask, jsonify, render_template, request, redirect
+from flask import Flask, jsonify, request, redirect
 
 
 settings = load_config()
@@ -18,12 +15,28 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return jsonify({"msg": "WAT"})
+    return jsonify(
+        {"usage": {
+            "/trail": {
+                "description": "create a blur to use as a url shortener later",
+                "verb": "POST",
+                "type": "application/json",
+                "variables": {
+                    "url": "string of where to redirect"
+                }
+            },
+            "/u/<x>": {
+                "description": "get redirected based on the given blur",
+                "verb": "GET"
+            }
+        }})
 
 
 @app.route('/trail', methods=['POST'])
 def trail():
+    # print(request)
     data = request.json
+    # print(data)
     if "url" not in data:
         return None
     # ask redis for new integter
@@ -41,8 +54,8 @@ def trail():
 @app.route('/u/<blur>')
 def blaze(blur):
     url = get_url(r, settings, blur)
-    return redirect(url)
+    return redirect(url.decode())
 
 
 if __name__ == "__main__":
-	pass
+    app.run(debug=True)
