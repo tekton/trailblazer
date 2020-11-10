@@ -15,7 +15,21 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return jsonify({"msg": "WAT"})
+    return jsonify(
+        {"usage": {
+            "/trail": {
+                "description": "create a blur to use as a url shortener later",
+                "verb": "POST",
+                "type": "application/json",
+                "variables": {
+                    "url": "string of where to redirect"
+                }
+            },
+            "/u/<x>": {
+                "description": "get redirected based on the given blur",
+                "verb": "GET"
+            }
+        }})
 
 
 @app.route('/trail', methods=['POST'])
