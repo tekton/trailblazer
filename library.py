@@ -35,7 +35,7 @@ def set_redis(r, settings, blur, url, ttl=604800):  # TTL = 7 days
     _key = "{}:{}:url".format(settings["root"], blur)
     _res = r.set(_key, url)
     _ex = r.expire(_key, ttl)
-    print(_res, _ex)
+    # print(_res, _ex)
 
     # key = "{}:hash".format(settings["root"])
     # res = r.hset(key, blur, url)
@@ -45,7 +45,7 @@ def set_redis(r, settings, blur, url, ttl=604800):  # TTL = 7 days
 def get_url(r, settings, blur):
     _key = "{}:{}:url".format(settings["root"], blur)
     _res = r.get(_key)
-    print(_res)
+    # print(_res)
 
     # key = "{}:hash".format(settings["root"])
     # res = r.hget(key, blur)
