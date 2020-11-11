@@ -9,6 +9,7 @@ settings = load_config()
 pool = redis.ConnectionPool(host=settings["redis"]["host"],
                             port=settings["redis"]["port"],
                             db=settings["redis"]["db"])
+global r
 r = redis.Redis(connection_pool=pool)
 app = Flask(__name__)
 

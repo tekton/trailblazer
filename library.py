@@ -33,7 +33,7 @@ def incr_redis(r, settings):
 
 def set_redis(r, settings, blur, url, ttl=604800):  # TTL = 7 days
     _key = "{}:{}:url".format(settings["root"], blur)
-    _res = r.set(_key, url, keepttl=ttl)
+    _res = r.set(_key, url)
     _ex = r.expire(_key, ttl)
     print(_res, _ex)
 
