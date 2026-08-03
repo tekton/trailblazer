@@ -58,5 +58,10 @@ def blaze(blur):
     return redirect(url.decode())
 
 
-if __name__ == "__main__":
+def main():
+    """Main entry point for the trailblazer application."""
     app.run(debug=True)
+
+
+if __name__ == "__main__":
+    main()
